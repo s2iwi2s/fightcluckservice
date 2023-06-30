@@ -1,19 +1,27 @@
-spring:
-  application:
-    name: fightcluckservice
-  config:
-    import: "optional:configserver:"
-server:
-  port: 8001
-
 eureka:
   client:
     enabled: true
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://eurekaserviceregistry-dev:8761/eureka/
 
-management:
-  tracing:
-    sampling:
-      probability: 1.0
-#logging.pattern.level=%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]
+spring:
+  datasource:
+    url: jdbc:postgresql://fightcluckservice-dev-postgresql:5432/fightcluckservice-dev
+    username: fightcluckservice-dev
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+
+server:
+  port: 8001
+
+logging:
+  level:
+    root: info
+    org.hibernate.SQL: debug
+    com.netflix: debug
+    org.springframework.cloud: info
+    org.springframework.web: debug
+    org.springframework.sql: debug
+    com.stoi: debug

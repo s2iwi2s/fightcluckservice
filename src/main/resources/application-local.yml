@@ -2,16 +2,19 @@ eureka:
   client:
     enabled: true
     service-url:
-      defaultZone: http://naming-server-dev-app:8761/eureka/
+      defaultZone: http://localhost:8761/eureka/
 
 spring:
   datasource:
-    url: jdbc:postgresql://fightcluckservice-dev-postgresql:5432/fightcluckservice-dev
+    url: jdbc:postgresql://localhost:5431/fightcluckservice-dev
     username: fightcluckservice-dev
   jpa:
     hibernate:
       ddl-auto: create-drop
     show-sql: true
+
+server:
+  port: 8001
 
 logging:
   level:
