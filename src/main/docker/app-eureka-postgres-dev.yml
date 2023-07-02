@@ -26,24 +26,6 @@ services:
       SPRING_PROFILES_ACTIVE: dev
       _JAVA_OPTIONS: -Xmx512m -Xms256m
 
-  fightcluckservice-dev-app:
-    image: fightcluckservice
-    ports:
-      - 127.0.0.1:8001:8001
-    networks:
-      - fightcluck-network-dev
-    environment:
-#      SPRING_DATASOURCE_URL: jdbc:postgresql://fightcluckservice-dev-postgresql:5432/fightcluckservice-dev
-#      server.port: 8001
-#      eureka.client.service-url.defaultZone: http://admin:admin@eurekaserviceregistry-dev:8761/eureka
-      APP_DELAY_STARTUP: 10
-#      _JAVA_OPTIONS: -Xmx512m -Xms256m -Dspring.profiles.active=prod,api-docs,static
-      _JAVA_OPTIONS: -Xmx512m -Xms256m
-      SPRING_PROFILES_ACTIVE: dev
-    depends_on:
-      - fightcluckservice-dev-postgresql
-      - eurekaserviceregistry-dev
-
 networks:
   fightcluck-network-dev:
     name: fightcluck-network-dev

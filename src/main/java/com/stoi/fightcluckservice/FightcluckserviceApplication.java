@@ -47,6 +47,7 @@ public class FightcluckserviceApplication {
                         "Application '{}' is running!:\n\t" +
                         "Local: \t\t{}://localhost:{}{}\n\t" +
                         "External: \t{}://{}:{}{}\n\t" +
+                        "Swagger: \t{}://localhost:{}{}swagger-ui/index.html\n\t" +
                         "DS Url: \t{}\n\t" +
                         "DS Username: \t{}\n\t" +
                         "Eureka: \t{}\n\t" +
@@ -57,6 +58,9 @@ public class FightcluckserviceApplication {
                 contextPath,
                 protocol,
                 hostAddress,
+                serverPort,
+                contextPath,
+                protocol,
                 serverPort,
                 contextPath,
                 dsUrl,

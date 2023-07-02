@@ -1,10 +1,15 @@
 application.version: 1.0B
 
+login:
+  eureka:
+    user: EUREKA
+    password: ADMIN
+
 spring:
   application:
     name: fightcluckservice
   config:
-    import: "optional:configserver:"
+    import: "optional:configserver:http://localhost:8888"
   jackson:
     serialization:
       indent-output: true
@@ -15,5 +20,86 @@ spring:
       poolName: Hikari
   jpa:
     database: POSTGRESQL
+
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${random.uuid}
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 5
+#    metadata-map:
+#      user.name: ${login.eureka.user}
+#      user.password: ${login.eureka.password}
+#    status-page-url-path: ${management.endpoints.web.base-path}/info
+#    health-check-url-path: ${management.endpoints.web.base-path}/health
+  client:
+    enabled: true
+    fetch-registry: true
+    register-with-eureka: true
+    initial-instance-info-replication-interval-seconds: 5
+    instance-info-replication-interval-seconds: 10
+    registry-fetch-interval-seconds: 10
+    healthcheck:
+      enabled: true
+    server:
+      waitTimeInMsWhenSyncEmpty: 0
+#    service-url:
+#      default-zone: http://${login.eureka.user}:${login.eureka.password}@localhost:8761/eureka
+
+management:
+  info:
+    git:
+      mode: full
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    shutdown:
+      enabled: true
+    info:
+      enabled: true
+    enabled-by-default: false
+
+#  endpoints:
+#    web:
+##      base-path: /management
+#      exposure:
+#        include: '*'
+##          ['configprops', 'env', 'health', 'info', 'jhimetrics', 'logfile', 'loggers', 'prometheus', 'threaddump', 'caches', 'liquibase']
+#  endpoint:
+#    health:
+#      show-details: always
+##      show-details: when_authorized
+##      roles: 'ROLE_ADMIN'
+#      probes:
+#        enabled: true
+#    beans:
+#      enabled: true
+#  info:
+#    git:
+#      mode: full
+#  health:
+#    group:
+#      liveness:
+#        include: livenessState
+#      readiness:
+#        include: readinessState,datasource
+#    mail:
+#      enabled: false # When using the MailService, configure an SMTP server and set this to true
+#  metrics:
+#    enable:
+#      http: true
+#      jvm: true
+#      logback: true
+#      process: true
+#      system: true
+#    distribution:
+#      percentiles-histogram:
+#        all: true
+#      percentiles:
+#        all: 0, 0.5, 0.75, 0.95, 0.99, 1.0
+#    tags:
+#      application: ${spring.application.name}
 
 #logging.pattern.level=%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]

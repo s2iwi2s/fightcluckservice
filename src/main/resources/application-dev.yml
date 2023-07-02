@@ -1,8 +1,15 @@
 eureka:
+  #  dashboard:
+  #    path: /eurekawebui
+  instance:
+    hostname: eurekaserviceregistry-dev
+    non-secure-port: 8761
   client:
     enabled: true
+    server:
+      waitTimeInMsWhenSyncEmpty: 0
     service-url:
-      defaultZone: http://eurekaserviceregistry-dev:8761/eureka/
+      defaultZone: http://${login.eureka.user}:${login.eureka.password}@${eureka.instance.hostname}:${eureka.instance.non-secure-port}/eureka
 
 spring:
   datasource:

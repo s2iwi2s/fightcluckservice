@@ -15,20 +15,20 @@ services:
       - POSTGRES_PASSWORD=
       - POSTGRES_HOST_AUTH_METHOD=trust
 
-  naming-server-prod-app:
-    image: namingserver
+  eurekaserviceregistry-prod:
+    image: eurekaserviceregistry
     ports:
       - 127.0.0.1:9761:9761
     networks:
       - fightcluck-network-prod
     environment:
       server.port: 9761
-      eureka.client.register-with-eureka: false
-      eureka.client.fetch-registry: false
+      SPRING_PROFILES_ACTIVE: prod
+      _JAVA_OPTIONS: -Xmx512m -Xms256m
     depends_on:
       - fightcluckservice-prod-postgresql
 
-  fightcluckservice-app:
+  fightcluckservice-prod-app:
     image: fightcluckservice
     ports:
       - 127.0.0.1:9001:9001
@@ -44,7 +44,7 @@ services:
       SPRING_PROFILES_ACTIVE: prod
     depends_on:
       - fightcluckservice-prod-postgresql
-      - naming-server-prod-app
+      - eurekaserviceregistry-prod
 
 networks:
   fightcluck-network-prod:
