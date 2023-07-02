@@ -12,7 +12,7 @@
 
 	<groupId>com.stoi</groupId>
 	<artifactId>fightcluckservice</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0.fcsb</version>
 	<name>fightcluckservice</name>
 	<description>fightcluckservice</description>
 
@@ -152,6 +152,7 @@
 				<executions>
 					<execution>
 						<goals>
+							<goal>repackage</goal>
 							<goal>build-info</goal>
 						</goals>
 					</execution>

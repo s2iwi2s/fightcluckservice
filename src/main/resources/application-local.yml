@@ -3,14 +3,14 @@ eureka:
   #    path: /eurekawebui
   instance:
     hostname: localhost
-    non-secure-port: 8761
+    non-secure-port: 7761
   client:
     enabled: true
     server:
       waitTimeInMsWhenSyncEmpty: 0
     service-url:
-      defaultZone: http://${eureka.instance.hostname}:${eureka.instance.non-secure-port}/eureka
-#      defaultZone: http://${login.eureka.user}:${login.eureka.password}@${eureka.instance.hostname}:${eureka.instance.non-secure-port}/eureka
+#      defaultZone: http://${eureka.instance.hostname}:${eureka.instance.non-secure-port}/eureka
+      defaultZone: http://${login.admin.user}:${login.admin.password}@${eureka.instance.hostname}:${eureka.instance.non-secure-port}/eureka
 
 spring:
   datasource:

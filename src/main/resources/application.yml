@@ -4,6 +4,9 @@ login:
   eureka:
     user: EUREKA
     password: ADMIN
+  admin:
+    user: admin
+    password: admin
 
 spring:
   application:
@@ -48,18 +51,39 @@ eureka:
 
 management:
   info:
+    env:
+      enabled: true
     git:
       mode: full
   endpoints:
     web:
       exposure:
-        include: '*'
+        include: "*"
+    env:
+      keys-to-sanitize: password,secret
+      show-values: WHEN_AUTHORIZED
+    configprops:
+      show-values: WHEN_AUTHORIZED
   endpoint:
+    enabled-by-default: true
+    refresh:
+      enabled: true
+    restart:
+      enabled: false
     shutdown:
       enabled: true
     info:
       enabled: true
-    enabled-by-default: false
+      show-values: WHEN_AUTHORIZED
+    env:
+      keys-to-sanitize: password,secret
+      show-values: WHEN_AUTHORIZED
+      post:
+        enabled: true
+    health:
+      show-details: WHEN_AUTHORIZED
+    configprops:
+      show-values: WHEN_AUTHORIZED
 
 #  endpoints:
 #    web:
@@ -102,4 +126,16 @@ management:
 #    tags:
 #      application: ${spring.application.name}
 
-#logging.pattern.level=%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]
+#endpoints:
+#  env:
+#    keys-to-sanitize: password,secret
+#    show-values: WHEN_AUTHORIZED
+#  configprops:
+#    show-values=WHEN_AUTHORIZED:
+#
+logging:
+  file:
+    name: /var/log/${spring.application.name}.log
+  pattern:
+    console: "%black(%d{ISO8601}) %highlight(%-5level) %yellow(%c{2}): %msg%n%throwable"
+    file: "%black(%d{ISO8601}) %highlight(%-5level) %yellow(%c{2}): %msg%n%throwable"
