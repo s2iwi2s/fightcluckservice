@@ -23,6 +23,7 @@ services:
       - fightcluck-network-dev
     environment:
       #      server.port: 8761
+      APP_DELAY_STARTUP: 0
       SPRING_PROFILES_ACTIVE: dev
       _JAVA_OPTIONS: -Xmx512m -Xms256m
 

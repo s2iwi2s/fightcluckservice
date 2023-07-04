@@ -9,7 +9,7 @@ eureka:
     server:
       waitTimeInMsWhenSyncEmpty: 0
     service-url:
-      defaultZone: http://${login.eureka.user}:${login.eureka.password}@${eureka.instance.hostname}:${eureka.instance.non-secure-port}/eureka
+      defaultZone: http://${login.admin.user}:${login.admin.password}@${eureka.instance.hostname}:${eureka.instance.non-secure-port}/eureka
 
 spring:
   datasource:

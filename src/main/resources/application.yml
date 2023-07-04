@@ -8,11 +8,19 @@ login:
     user: admin
     password: admin
 
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  show-spring-cloud-functions: true
+  show-actuator: false
+  api-docs.groups.enabled: true
+
 spring:
   application:
     name: fightcluckservice
+    instance-id: ${spring.application.name}:${random.uuid}
   config:
-    import: "optional:configserver:http://localhost:8888"
+    import: "optional:configserver:"
   jackson:
     serialization:
       indent-output: true
@@ -23,18 +31,18 @@ spring:
       poolName: Hikari
   jpa:
     database: POSTGRESQL
+  output.ansi.enabled: always
 
 eureka:
   instance:
+    health-check-url-path: /actuator/health
     instance-id: ${spring.application.name}:${random.uuid}
-    prefer-ip-address: true
     lease-renewal-interval-in-seconds: 10
     lease-expiration-duration-in-seconds: 5
-#    metadata-map:
-#      user.name: ${login.eureka.user}
-#      user.password: ${login.eureka.password}
-#    status-page-url-path: ${management.endpoints.web.base-path}/info
-#    health-check-url-path: ${management.endpoints.web.base-path}/health
+    prefer-ip-address: true
+    metadata-map:
+      startup: ${random.int}
+      zone: primary # This is needed for the load balancer
   client:
     enabled: true
     fetch-registry: true
@@ -42,100 +50,40 @@ eureka:
     initial-instance-info-replication-interval-seconds: 5
     instance-info-replication-interval-seconds: 10
     registry-fetch-interval-seconds: 10
-    healthcheck:
-      enabled: true
-    server:
-      waitTimeInMsWhenSyncEmpty: 0
-#    service-url:
-#      default-zone: http://${login.eureka.user}:${login.eureka.password}@localhost:8761/eureka
+    healthcheck.enabled: true
+    server.waitTimeInMsWhenSyncEmpty: 0
 
 management:
   info:
-    env:
-      enabled: true
+    env.enabled: true
     git:
       mode: full
+      enabled: true
   endpoints:
     web:
       exposure:
         include: "*"
     env:
       keys-to-sanitize: password,secret
-      show-values: WHEN_AUTHORIZED
+      show-values: always
     configprops:
-      show-values: WHEN_AUTHORIZED
+      show-values: always
   endpoint:
     enabled-by-default: true
-    refresh:
-      enabled: true
-    restart:
-      enabled: false
-    shutdown:
-      enabled: true
+    refresh.enabled: true
+    restart.enabled: false
+    shutdown.enabled: true
     info:
       enabled: true
-      show-values: WHEN_AUTHORIZED
+      show-values: ALWAYS
     env:
       keys-to-sanitize: password,secret
-      show-values: WHEN_AUTHORIZED
-      post:
-        enabled: true
-    health:
-      show-details: WHEN_AUTHORIZED
-    configprops:
-      show-values: WHEN_AUTHORIZED
+      show-values: always
+      post.enabled: true
+    health.show-details: always
+    configprops.show-values: always
 
-#  endpoints:
-#    web:
-##      base-path: /management
-#      exposure:
-#        include: '*'
-##          ['configprops', 'env', 'health', 'info', 'jhimetrics', 'logfile', 'loggers', 'prometheus', 'threaddump', 'caches', 'liquibase']
-#  endpoint:
-#    health:
-#      show-details: always
-##      show-details: when_authorized
-##      roles: 'ROLE_ADMIN'
-#      probes:
-#        enabled: true
-#    beans:
-#      enabled: true
-#  info:
-#    git:
-#      mode: full
-#  health:
-#    group:
-#      liveness:
-#        include: livenessState
-#      readiness:
-#        include: readinessState,datasource
-#    mail:
-#      enabled: false # When using the MailService, configure an SMTP server and set this to true
-#  metrics:
-#    enable:
-#      http: true
-#      jvm: true
-#      logback: true
-#      process: true
-#      system: true
-#    distribution:
-#      percentiles-histogram:
-#        all: true
-#      percentiles:
-#        all: 0, 0.5, 0.75, 0.95, 0.99, 1.0
-#    tags:
-#      application: ${spring.application.name}
-
-#endpoints:
-#  env:
-#    keys-to-sanitize: password,secret
-#    show-values: WHEN_AUTHORIZED
-#  configprops:
-#    show-values=WHEN_AUTHORIZED:
-#
 logging:
-  file:
-    name: /var/log/${spring.application.name}.log
   pattern:
     console: "%black(%d{ISO8601}) %highlight(%-5level) %yellow(%c{2}): %msg%n%throwable"
-    file: "%black(%d{ISO8601}) %highlight(%-5level) %yellow(%c{2}): %msg%n%throwable"
+#    file: "%black(%d{ISO8601}) %highlight(%-5level) %yellow(%c{2}): %msg%n%throwable"

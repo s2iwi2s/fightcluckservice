@@ -12,7 +12,7 @@
 
 	<groupId>com.stoi</groupId>
 	<artifactId>fightcluckservice</artifactId>
-	<version>1.0.0.fcsb</version>
+	<version>1.0.0b</version>
 	<name>fightcluckservice</name>
 	<description>fightcluckservice</description>
 
@@ -27,6 +27,9 @@
 		<org.springdoc.version>2.1.0</org.springdoc.version>
 		<jakarta.validation-api.version>3.0.2</jakarta.validation-api.version>
 		<hibernate-validator.version>8.0.1.Final</hibernate-validator.version>
+		<git-commit-id-maven-plugin.version>6.0.0</git-commit-id-maven-plugin.version>
+		<springdoc-openapi-starter-webmvc-ui.version>2.1.0</springdoc-openapi-starter-webmvc-ui.version>
+
 	</properties>
 
 	<dependencies>
@@ -77,11 +80,6 @@
 			<version>${org.mapstruct.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.springdoc</groupId>
-			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-			<version>${org.springdoc.version}</version>
-		</dependency>
-		<dependency>
 			<groupId>jakarta.validation</groupId>
 			<artifactId>jakarta.validation-api</artifactId>
 			<version>${jakarta.validation-api.version}</version>
@@ -92,15 +90,17 @@
 			<version>${hibernate-validator.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-rest-hal-explorer</artifactId>
+			<groupId>io.github.git-commit-id</groupId>
+			<artifactId>git-commit-id-maven-plugin</artifactId>
+			<version>${git-commit-id-maven-plugin.version}</version>
 		</dependency>
-<!--		<dependency>-->
-<!--			<groupId>com.sun.jersey.contribs</groupId>-->
-<!--			<artifactId>jersey-apache-client4</artifactId>-->
-<!--			<version>1.19.4</version>-->
-<!--		</dependency>-->
-		<!-- test -->
+
+		<!-- Swagger UI -->
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>${springdoc-openapi-starter-webmvc-ui.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -155,6 +155,12 @@
 							<goal>repackage</goal>
 							<goal>build-info</goal>
 						</goals>
+						<configuration>
+							<additionalProperties>
+								<java.version>${java.version}</java.version>
+								<spring-boot.version>${parent.version}</spring-boot.version>
+							</additionalProperties>
+						</configuration>
 					</execution>
 				</executions>
 				<configuration>
@@ -164,6 +170,28 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>io.github.git-commit-id</groupId>
+				<artifactId>git-commit-id-maven-plugin</artifactId>
+				<version>${git-commit-id-maven-plugin.version}</version>
+				<executions>
+					<execution>
+						<id>get-the-git-infos</id>
+						<goals>
+							<goal>revision</goal>
+						</goals>
+						<phase>initialize</phase>
+					</execution>
+				</executions>
+				<configuration>
+					<generateGitPropertiesFile>true</generateGitPropertiesFile>
+					<generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
+					<commitIdGenerationMode>full</commitIdGenerationMode>
+					<excludeProperties>
+						<excludeProperty>^git.build.number$</excludeProperty>
+					</excludeProperties>
 				</configuration>
 			</plugin>
 		</plugins>
