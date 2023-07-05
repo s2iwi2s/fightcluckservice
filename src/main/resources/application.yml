@@ -9,11 +9,14 @@ login:
     password: admin
 
 springdoc:
-  swagger-ui:
-    path: /swagger-ui.html
   show-spring-cloud-functions: true
   show-actuator: false
-  api-docs.groups.enabled: true
+  swagger-ui:
+    enabled=true:
+    path: /admin/swagger-ui
+  api-docs:
+    #    path: /api-docs
+    groups.enabled: true
 
 spring:
   application:

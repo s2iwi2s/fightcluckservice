@@ -20,11 +20,18 @@ spring:
     hibernate:
       ddl-auto: create-drop
 
+spring.cloud:
+  config:
+    username: ${login.admin.user}
+    password: ${login.admin.password}
+
 server:
   port: 7001
 
 logging:
   level:
     root: info
-    org.springframework.web: error
+#    org.springframework.web: info
+#    org.springframework.web.servlet.mvc.method.annotation: trace
+    com.netflix.discovery.shared.transport.jersey3: trace
     com.stoi: debug
